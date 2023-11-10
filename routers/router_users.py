@@ -3,6 +3,7 @@ from typing import List, Optional
 import uuid
 from classes.schema_dto import User, UserNoID
 
+# init (uvicorn main:api --reload)
 router = APIRouter(
     prefix='/users',
     tags=["Users"]
@@ -17,6 +18,8 @@ users = [
 async def get_users():
     return users
 
+# 1. CREATE User
+
 @router.post('/', response_model=User, status_code=201)
 async def create_user(givenName: str, givenPassword: str):
 
@@ -27,12 +30,16 @@ async def create_user(givenName: str, givenPassword: str):
     # Second step INSTANCE
     return newUser
 
+# 2. GET User
+
 @router.get('/{user_id}', response_model=User)
 async def get_user_by_id(user_id: str):
     for user in users:
         if user.id == user_id:
             return user
     raise HTTPException(status_code=404, detail="User not found")
+
+# 3. UPDATE User
 
 @router.patch('/{user_id}', status_code=204)
 async def modify_user_name(user_id: str, modifiedUser: UserNoID):
@@ -42,6 +49,7 @@ async def modify_user_name(user_id: str, modifiedUser: UserNoID):
             return
     raise HTTPException(status_code=404, detail="User not found")
 
+# 4. DELETE User
 @router.delete('/{user_id}', status_code=204)
 async def delete_user(user_id: str):
     for user in users:

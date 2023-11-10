@@ -13,6 +13,8 @@ class Recipe(BaseModel):
     id: str
     title: str
     owner: str
+    description: str
+    préparation: str
     completed: bool = False
 
 class UserNoID(BaseModel):
@@ -21,6 +23,7 @@ class UserNoID(BaseModel):
 
 class RecipeNoID(BaseModel):
     title: str
-    description: str   
-    owner: Optional[str] 
-   
+    owner: str
+    description: str
+    préparation: str
+    completed: bool = False
